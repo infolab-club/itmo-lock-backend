@@ -57,12 +57,11 @@ def registration():
                 'time': str(datetime.utcnow())
             }, key = app.config['SECRET_KEY'])
         user = Users(name=values['name'], surname=values['surname'], email=values['email'], password=generate_password_hash(values['password']), token=token, is_admin=False)
-        db.session.add(user)
-        db.session.commit()
-        return Response(json.dumps({
-                'token': token}))
         try:
-            return 0
+            db.session.add(user)
+            db.session.commit()
+            return Response(json.dumps({
+                    'token': token}))
         except:
             return Response("invalid input", status=400, mimetype='application/json')
     else:
@@ -207,6 +206,21 @@ def get_users():
         else:
             return Response("Permission denied", status=400, mimetype='application/json')
 
+
+@app.route('/v1/users/info', methods=['GET'])
+def get_user():
+    token = request.headers.get('Authorization')
+    user = Users.query.filter_by(token=token).first()
+    if user is None:
+        return Response("Unauthorized user", status=400, mimetype='application/json')
+    else:
+        return Response(json.dumps({
+            'id': user.id,
+            'email': user.email,
+            'name': user.name,
+            'surname': user.surname,
+            'is_admin': user.is_admin
+        }))
 
 if __name__ == "__main__":
     db.create_all()
