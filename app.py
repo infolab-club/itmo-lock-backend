@@ -57,11 +57,12 @@ def registration():
                 'time': str(datetime.utcnow())
             }, key = app.config['SECRET_KEY'])
         user = Users(name=values['name'], surname=values['surname'], email=values['email'], password=generate_password_hash(values['password']), token=token, is_admin=False)
+        db.session.add(user)
+        db.session.commit()
+        return Response(json.dumps({
+                'token': token}))
         try:
-            db.session.add(user)
-            db.session.commit()
-            return Response(json.dumps({
-                    'token': token}))
+            return 0
         except:
             return Response("invalid input", status=400, mimetype='application/json')
     else:

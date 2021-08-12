@@ -2,7 +2,7 @@ CREATE TABLE USERS (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100),
     surname VARCHAR(100),
-    email VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
     password VARCHAR(100),
     token VARCHAR(100),
     is_admin BOOLEAN
