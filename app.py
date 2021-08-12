@@ -47,7 +47,7 @@ class Access(db.Model):
         return '<Access %r>' % self.id
 
 
-@app.route('/registration', methods=['POST'])
+@app.route('/v1/auth/registration', methods=['POST'])
 def registration():
     values = request.json
     if 'email' in values.keys() and 'name' in values.keys() and 'surname' in values.keys() and 'password' in values.keys() and validate_email(values['email']):
@@ -67,7 +67,7 @@ def registration():
         return Response("invalid input", status=400, mimetype='application/json')
 
 
-@app.route('/login', methods=['POST'])
+@app.route('/v1/auth/login', methods=['POST'])
 def login():
     values = request.json
     if 'email' in values.keys() and 'password' in values.keys():
@@ -83,7 +83,7 @@ def login():
         return Response("Invalid input", status=400, mimetype='application/json')
 
 
-@app.route('/locks/<int:id>/add_user', methods=['POST'])
+@app.route('/v1/locks/<int:id>/add_user', methods=['POST'])
 def add_user(id):
     token = request.headers.get('Authorization')
     user = Users.query.filter_by(token=token).first()
@@ -103,7 +103,7 @@ def add_user(id):
             return Response("Permission denied", status=400, mimetype='application/json')
 
 
-@app.route('/locks/<int:id>/remove_user', methods=['POST'])
+@app.route('/v1/locks/<int:id>/remove_user', methods=['POST'])
 def remove_user(id):
     token = request.headers.get('Authorization')
     user = Users.query.filter_by(token=token).first()
@@ -123,7 +123,7 @@ def remove_user(id):
             return Response("Permission denied", status=400, mimetype='application/json')
 
 
-@app.route('/locks', methods=['GET'])
+@app.route('/v1/locks', methods=['GET'])
 def get_locks():
     token = request.headers.get('Authorization')
     user = Users.query.filter_by(token=token).first()
@@ -154,7 +154,7 @@ def get_locks():
             return Response(json.dumps({"locks": locks_list}))
 
 
-@app.route('/locks/<int:id>/token', methods=['GET'])
+@app.route('/v1/locks/<int:id>/token', methods=['GET'])
 def get_lock_token(id):
     token = request.headers.get('Authorization')
     user = Users.query.filter_by(token=token).first()
@@ -177,7 +177,7 @@ def get_lock_token(id):
                 }))
 
 
-@app.route('/users', methods=['GET'])
+@app.route('/v1/users', methods=['GET'])
 def get_users():
     token = request.headers.get('Authorization')
     user = Users.query.filter_by(token=token).first()
