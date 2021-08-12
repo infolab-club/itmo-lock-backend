@@ -207,6 +207,21 @@ def get_users():
             return Response("Permission denied", status=400, mimetype='application/json')
 
 
+@app.route('/v1/users/info', methods=['GET'])
+def get_user():
+    token = request.headers.get('Authorization')
+    user = Users.query.filter_by(token=token).first()
+    if user is None:
+        return Response("Unauthorized user", status=400, mimetype='application/json')
+    else:
+        return Response(json.dumps({
+            'id': user.id,
+            'email': user.email,
+            'name': user.name,
+            'surname': user.surname,
+            'is_admin': user.is_admin
+        }))
+
 if __name__ == "__main__":
     db.create_all()
     app.run(debug=True)
