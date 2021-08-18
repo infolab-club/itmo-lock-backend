@@ -1,0 +1,1 @@
+from myfirst.wsgi import application as app
