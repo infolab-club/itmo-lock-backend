@@ -22,6 +22,7 @@ class Locks(models.Model):
     preview = models.CharField(max_length=100, blank=True, null=True)
     about = models.CharField(max_length=100, blank=True, null=True)
     token = models.CharField(max_length=500, blank=True, null=True)
+    mac = models.CharField(max_length=500, blank=True, null=True)
 
     class Meta:
         managed = False

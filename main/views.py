@@ -129,7 +129,8 @@ def get_lock_token(request, id):
         if user.is_admin:
             lock = Locks.objects.filter(id=id).first()
             return JsonResponse({
-                "token": lock.token
+                "token": lock.token,
+                "mac": lock.mac
             })
         else:
             access = Access.objects.filter(id_user=user.id, id_lock=id).first()
@@ -138,7 +139,8 @@ def get_lock_token(request, id):
             else:
                 lock = Locks.objects.filter(id=id).first()
                 return JsonResponse({
-                    "token": lock.token
+                    "token": lock.token,
+                    "mac": lock.mac
                 })
 
 

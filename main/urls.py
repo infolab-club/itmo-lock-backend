@@ -24,7 +24,7 @@ urlpatterns = [
     path('v1/locks/<int:id>/add_user', views.add_user),
     path('v1/locks/<int:id>/remove_user', views.remove_user),
     path('v1/locks', views.get_locks),
-    path('v1/locks/<int:id>/token', views.get_lock_token),
+    path('v1/locks/<int:id>', views.get_lock_token),
     path('v1/users', views.get_users),
     path('v1/users/info', views.get_user)
 ]
